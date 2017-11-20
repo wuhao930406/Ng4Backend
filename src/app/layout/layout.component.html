@@ -1,0 +1,54 @@
+<nz-layout>
+  <nz-header style="padding: 0px 16px;">
+      <div class="logo">
+      </div>
+    <i style="color: #FFFFFF;float: left; margin-top: 26px;margin-right: 20px;cursor: pointer;" class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" style="line-height: 64px;float: left">
+      <li *ngFor="let hero of heroes;let i = index" nz-menu-item [nzSelected]="i==first" (click)="changeNav(hero,i)">
+        {{hero.name}}
+      </li>
+    </ul>
+    <div style="float: right">
+      <nz-badge [nzCount]="num" style="margin-right: 12px;" (click)="createNotification('info')">
+        <ng-template #content><nz-avatar nzSize="small" nzIcon="user" [nzShape]="'square'"></nz-avatar></ng-template>
+      </nz-badge>
+      <span class="white namer">您好，{{userName}}</span>
+      <span style="margin-right: 12px;cursor:pointer;opacity: 0.9" (click)="exit()">
+        <i class="anticon anticon-logout white" style="margin-right: 2px"></i>
+        <span class="white">退出</span>
+      </span>
+
+    </div>
+
+
+
+  </nz-header>
+  <nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" >
+      <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+        <div  *ngFor="let hero of child;let i = index">
+        <li  nz-menu-item (click)="selectHero(hero,i)" [nzSelected]="i==second" breadcrumbName="hero.name">
+          <span >
+            <i class={{hero.icon}}></i><span class="nav-text">{{hero.name}}</span></span>
+        </li>
+        </div>
+
+      </ul>
+    </nz-sider>
+    <nz-content style="margin:0 16px;background-color: #FFFFFF">
+      <nz-breadcrumb style="padding:12px 0;background-color: #ECECEC;width: 100%">
+        <nz-breadcrumb-item>{{firstname}}</nz-breadcrumb-item>
+        <nz-breadcrumb-item>{{lastname}}</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="yarnSet hs" #greet style="padding:24px; background: #fff;">
+          <router-outlet>
+
+          </router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+  <nz-footer #greet  style="text-align: center;"><span class="hs">南京大屠杀数字一体化平台</span></nz-footer>
+
+</nz-layout>
+<nz-spin [nzSpinning]="_isSpinning" *ngIf="_isSpinning" style="position: fixed;top: 0;right: 0;bottom: 0;left: 0;margin: auto">
+</nz-spin>

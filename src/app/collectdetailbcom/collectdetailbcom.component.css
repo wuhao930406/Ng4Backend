@@ -1,0 +1,162 @@
+:host ::ng-deep .vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .vertical-center-modal .ant-modal {
+  top: 0;
+}
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+.section{
+  overflow: hidden;
+  clear: both;
+}
+.badage,.badages{
+  padding-top: 8px;
+  width: 100%;
+  border-top: #ededed solid 1px ;
+  margin-top: 6px;
+}
+.badage span{
+  float: left;
+  text-align: center;
+  width: 33.3%;
+  border-right: #ededed solid 1px ;
+  box-sizing: border-box;
+}
+.badage span:last-child{
+  float: left;
+  width: 33.3%;
+  border-right: none ;
+}
+.badages span{
+  float: left;
+  text-align: center;
+  width: 50%;
+  border-right: #ededed solid 1px ;
+  box-sizing: border-box;
+}
+.badages span:last-child{
+  border-right: none ;
+}
+.imgcontain{
+  border: #f0f0f0 solid 1px;
+  border-radius: 6px;
+  height: 170px;
+  width: 310px;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.mit p{
+  margin-bottom: 8px;
+}
+.oneline{
+  max-width:200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block
+}
+.imggroup{
+  height: 190px;
+  overflow: auto;
+}
+.imggroup .imgcontain{
+  width: 23% !important;
+  cursor: pointer;
+  height: 100px !important;
+  float: left;
+  border-radius: 6px;
+  margin: 8px 1% !important;
+  position: relative;
+  overflow: hidden;
+}
+.imggroup .imgcontain .cover{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top:0;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+.imggroup .imgcontain .cover span{
+  cursor: pointer;
+  width: 40px;
+  display: block;
+  height: 18px;
+  position: absolute;
+  top: 0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  color: #FFFFFF;
+  font-size: 16px;
+  overflow: hidden;
+}
+.imggroup .imgcontain .cover span i{
+  cursor: pointer;
+  width: 20px;
+  height:20px;
+  float: left;
+}
+.imggroup .imgcontain .cover span i+i{
+  cursor: pointer;
+  width: 20px;
+  height:20px;
+  float: right;
+}
+
+.imggroup .imgcontain p{
+  width: 100%;
+  text-align: center;
+  color: #FFFFFF;
+  height: 26px;
+  position: absolute;
+  bottom: 0;
+  display: block;
+  line-height: 26px;
+  background-color: rgba(0,0,0,0.2);
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+}
+.imggroup .imgcontain:hover p{
+   background-color: rgba(0,0,0,1);
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+ }
+.imggroup .imgcontain:hover div{
+  opacity:1;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  -o-transition: all 0.4s;
+}
+.imggroup .imgcontain .tocenter{
+  float: none !important;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
+}

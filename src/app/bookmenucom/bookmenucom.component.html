@@ -1,0 +1,51 @@
+<nz-spin [nzSpinning]="_isSpinning" [nzTip]="'正在读取数据...'">
+  <nz-content>
+    <div nz-row [nzGutter]="8" style="margin-bottom: 8px">
+      <div nz-col [nzSpan]="8" >
+        <nz-card style="min-height:600px;">
+            <ng-template #title>
+              <span class="left" style="font-size: 14px">专题基本信息</span>
+            </ng-template>
+            <ng-template #body>
+              <div class="custom-image">
+                <img alt="pic" width="100%" style="border-radius: 6px;border: #ededed solid 1px;padding: 8px" src="{{dataList.picurl}}" (click)="showModal(dataList.picurl)"/>
+              </div>
+              <div class="custom-card">
+                <p>标<span style="opacity: 0">傻逼</span>题 : {{dataList.title}}</p>
+                <p>浏 &nbsp;览 &nbsp;量 : {{dataList.views}}</p>
+                <p>发布状态 : {{dataList.statusCN}}</p>
+                <p class="left">描<span style="opacity: 0">傻逼</span>述 :</p>
+                <p class="left">
+                  {{dataList.description}}
+                  审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态审核状态
+                </p>
+              </div>
+
+            </ng-template>
+        </nz-card>
+      </div>
+      <div nz-col [nzSpan]="16">
+        <nz-card style="min-height:600px">
+          <ng-template #title>
+            <span class="left" style="font-size: 14px">专题详情</span>
+          </ng-template>
+          <ng-template #body>
+            <p *ngIf="dataList.description" style="overflow: auto;display: block" [innerHtml]="dataList.context"></p>
+            <p *ngIf="!dataList.description" style="overflow: auto;display: block">暂无描述</p>
+          </ng-template>
+        </nz-card>
+      </div>
+    </div>
+    <nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzWidth]="'60%'" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel($event)">
+      <ng-template #modalTitle>
+        查看图片
+      </ng-template>
+      <ng-template #modalContent>
+        <img [src] = "thisImg" style="width: 100%;"/>
+      </ng-template>
+      <ng-template #modalFooter>
+      </ng-template>
+    </nz-modal>
+  </nz-content>
+
+</nz-spin>

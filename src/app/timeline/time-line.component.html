@@ -1,0 +1,96 @@
+<nz-spin [nzSpinning]="_isSpinning">
+  <nz-radio-group [(ngModel)]="nzTabPosition">
+    <label nz-radio-button [nzValue]="'top'">
+      <span>水平</span>
+    </label>
+    <label nz-radio-button [nzValue]="'left'">
+      <span>垂直</span>
+    </label>
+  </nz-radio-group>
+  <div style="float: right; margin-left: 24px" >
+    <span>选择状态 : &nbsp;</span>
+    <nz-select style="width: 88px;" [(ngModel)]="single" (ngModelChange)="getDatas()"  [nzShowSearch]="true" >
+      <nz-option
+        [nzLabel]="'-请选择-'"
+        [nzValue]="''">
+      </nz-option>
+      <nz-option
+        [nzLabel]="'未发布'"
+        [nzValue]="'0'">
+      </nz-option>
+      <nz-option
+        [nzLabel]="'已发布'"
+        [nzValue]="'1'">
+      </nz-option>
+      <nz-option
+        [nzLabel]="'已下架'"
+        [nzValue]="'2'">
+      </nz-option>
+    </nz-select>
+  </div>
+  <div style="float:right;margin-right: 24px" >
+  <nz-input-number  [(ngModel)]="selectedIndex" [nzMin]="0">
+  </nz-input-number>
+  <span> 总数:{{total}}</span>
+  </div>
+  <nz-tabset
+    style="min-height:380px;  margin-top: 24px"
+    [nzTabPosition]="nzTabPosition"
+    [(nzSelectedIndex)]="selectedIndex"
+    >
+    <nz-tab *ngFor="let tab of tabs;let i=index"  (nzSelect)="_console(tab)">
+      <ng-template #nzTabHeading>
+        {{tab}}
+      </ng-template>
+      <span>
+           <nz-table #nzTable [nzDataSource]="links" [nzPageSize]="10" [nzIsPagination]="false">
+             <thead nz-thead>
+             <tr>
+               <th nz-th><span class="padding24">图片</span></th>
+               <th nz-th><span>名称</span></th>
+               <th nz-th><span>描述</span></th>
+               <th nz-th *ngIf="ids=='04'"><span>作者</span></th>
+               <th nz-th *ngIf="ids=='04'"><span>出版社</span></th>
+               <th nz-th><span>状态</span></th>
+               <th nz-th><span>操作</span></th>
+             </tr>
+             </thead>
+             <tbody nz-tbody>
+             <tr nz-tbody-tr *ngFor="let data of links">
+               <td nz-td>
+                 <img  style="margin-left:24px;width: 40px;height: 40px" [src]="data.picurl" alt="">
+               </td>
+               <td nz-td *ngIf="ids!='06'">
+                 <a>{{data.name}}</a>
+               </td>
+               <td nz-td *ngIf="ids=='06'">
+                 <a>{{data.title}}</a>
+               </td>
+
+               <td nz-td>
+                 <nz-tooltip [nzTitle]="data.description" [nzPlacement]="'bottom'">
+                   <span nz-tooltip class="oneline">{{data.description}}</span>
+                 </nz-tooltip>
+               </td>
+               <td nz-td *ngIf="ids=='04'">{{data.author}}</td>
+               <td nz-td *ngIf="ids=='04'">{{data.publish}}</td>
+               <td nz-td>{{data.statusCN}}</td>
+               <td nz-td>
+                  <span>
+                    <a *ngIf="ids=='04'" [routerLink]="['/layout/section1detail',data.id]">查看</a>
+                    <a *ngIf="ids=='05'" [routerLink]="['/layout/section1detailb',data.id]">查看</a>
+                    <a *ngIf="ids=='06'" [routerLink]="['/layout/exbitioncom',data.id]">查看</a>
+                    <span nz-table-divider></span>
+                    <a *ngIf="ids=='04'" [routerLink]="['/layout/section1detailadd',data.id]">编辑</a>
+                    <a *ngIf="ids=='05'" [routerLink]="['/layout/section1detailbadd',data.id]">编辑</a>
+                    <a *ngIf="ids=='06'" [routerLink]="['/layout/exbitionadd',data.id]">编辑</a>
+                  </span>
+               </td>
+             </tr>
+             </tbody>
+           </nz-table>
+      </span>
+    </nz-tab>
+  </nz-tabset>
+  <nz-pagination style="clear:both;float: right;padding-top: 12px;margin-bottom: 12px" [nzPageSize]="pagesize" [(nzPageIndex)]="pageindex" (nzPageIndexChange)="getDatas()" [nzTotal]="nztotal" nzShowQuickJumper></nz-pagination>
+</nz-spin>

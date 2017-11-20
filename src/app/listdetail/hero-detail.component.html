@@ -1,0 +1,126 @@
+<nz-spin [nzSpinning]="_isSpinning" [nzTip]="'正在读取数据...'">
+<div class="table-operations" style="overflow: hidden;">
+  <nz-radio-group style="float: left; margin-right: 24px" [(ngModel)]="size">
+    <label nz-radio-button [nzValue]="'0'" (click)="getDatas()"><span>全部</span></label>
+    <label nz-radio-button [nzValue]="'1'" (click)="getDatas()"><span>精选条目</span></label>
+    <label nz-radio-button [nzValue]="'2'" (click)="getDatas()"><span>新书推荐</span></label>
+  </nz-radio-group>
+  <div style="float: left; margin-right: 24px" >
+  <span>发布状态 : &nbsp;</span>
+  <nz-select style="width: 88px;" [(ngModel)]="single" (ngModelChange)="getDatas()"  [nzShowSearch]="true" >
+    <nz-option
+      [nzLabel]="'-请选择-'"
+      [nzValue]="''">
+    </nz-option>
+    <nz-option
+      [nzLabel]="'未发布'"
+      [nzValue]="'0'">
+    </nz-option>
+    <nz-option
+      [nzLabel]="'已发布'"
+      [nzValue]="'1'">
+    </nz-option>
+    <nz-option
+      [nzLabel]="'已下架'"
+      [nzValue]="'2'">
+    </nz-option>
+  </nz-select>
+  </div>
+
+    <nz-input  style="width: 260px;float: left; margin-right: 24px" [(ngModel)]="inputValue" [nzPlaceHolder]="'请输入搜索内容...'" (ngModelChange)="alert($event)" (keyup.enter)="getDatas()">
+      <ng-template #addOnBefore>
+        <nz-select style="width: 66px;"[nzPlaceHolder]="'全部'"   [(ngModel)]="selectValue">
+          <nz-option [nzLabel]="'全部'"  [nzValue]="'0'"></nz-option>
+          <nz-option [nzLabel]="'书名'" [nzValue]="'1'"></nz-option>
+          <nz-option [nzLabel]="'作者'" [nzValue]="'2'"></nz-option>
+          <nz-option [nzLabel]="'出版社'" [nzValue]="'3'"></nz-option>
+        </nz-select>
+      </ng-template>
+      <ng-template #addOnAfter>
+        <i class="anticon anticon-search ant-input-search-icon" (click)="getDatas()"></i>
+      </ng-template>
+    </nz-input>
+  <button nz-button style="float: left" [nzType]="'primary'" (click)="reset()">重置</button>
+  <button nz-button style="float: right" [nzType]="'danger'" (click)="deleteAll()">全部删除</button>
+  <a [routerLink]="['/layout/section1detailadd','null']" nz-button style="float: right;line-height: 26px;display: block;margin-right: 12px" [nzType]="'primary'">新增书籍</a>
+</div>
+<nz-table #nzTable [nzDataSource]="data" [nzPageSize]="10" [nzIsPagination]="false">
+  <thead nz-thead>
+  <tr>
+    <th nz-th [nzCheckbox]="true">
+      <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+      </label>
+    </th>
+    <th nz-th>
+      <span>图片</span>
+    </th>
+    <th nz-th>
+      <span>书名</span>
+      <nz-table-sort [(nzValue)]="sortMap.name" (nzValueChange)="sort('name',$event)"></nz-table-sort>
+      <nz-dropdown [nzTrigger]="'click'">
+        <i class="anticon anticon-filter" nz-dropdown></i>
+        <ul nz-menu>
+          <li nz-menu-item *ngFor="let filter of filterNameArray">
+            <label nz-checkbox [(ngModel)]="filter.value">
+              <span>{{filter.name}}</span>
+            </label>
+          </li>
+        </ul>
+        <div nz-table-filter>
+          <span nz-table-filter-confirm (click)="search()">好</span>
+          <span nz-table-filter-clear (click)="reset(filterNameArray)">重置</span>
+        </div>
+      </nz-dropdown>
+    </th>
+    <th nz-th>
+      <span>作者</span>
+      <nz-table-sort [(nzValue)]="sortMap.author" (nzValueChange)="sort('author',$event)"></nz-table-sort>
+    </th>
+    <th nz-th>
+      <span>出版时间</span>
+      <nz-table-sort [(nzValue)]="sortMap.publishtime" (nzValueChange)="sort('publishtime',$event)"></nz-table-sort>
+    </th>
+    <th nz-th>
+      <span>出版社</span>
+      <nz-table-sort [(nzValue)]="sortMap.publish" (nzValueChange)="sort('publish',$event)"></nz-table-sort>
+    </th>
+    <th nz-th>
+      <span>状态</span>
+      <nz-table-sort [(nzValue)]="sortMap.statusCN" (nzValueChange)="sort('statusCN',$event)"></nz-table-sort>
+    </th>
+    <th nz-th style="width: 170px;">
+      <span style="padding-right: 12px;">操作</span>
+      <button *ngIf="single!=''" nz-button [nzType]="'default'" (click)="setAction()">
+        <i class="anticon anticon-edit"></i><span>{{action}}</span>
+      </button>
+    </th>
+  </tr>
+  </thead>
+  <tbody nz-tbody>
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+    <td nz-td [nzCheckbox]="true">
+      <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus($event)">
+      </label>
+    </td>
+    <td nz-td><img style="width: 40px;height: 40px" [src]="data.picurl" /></td>
+    <td nz-td>
+      <a>{{data.name}}</a>
+    </td>
+    <td nz-td>{{data.author}}</td>
+    <td nz-td>{{data.publishtime | date: 'yyyy-MM-dd' }}</td>
+    <td nz-td>{{data.publish}}</td>
+    <td nz-td>{{data.statusCN}}</td>
+    <td nz-td>
+      <span>
+        <a [routerLink]="['/layout/section1detailadd',data.id]">编辑</a>
+        <span nz-table-divider></span>
+        <a [routerLink]="['/layout/section1detail',data.id]">查看</a>
+        <span nz-table-divider></span>
+        <a (click)="deleteAll(data.id)" >删除</a>
+      </span>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<nz-pagination style="float: right;margin-top: 12px;margin-bottom: 24px" [nzPageSize]="pagesize" [(nzPageIndex)]="pageindex" (nzPageIndexChange)="getDatas()" [nzTotal]="nztotal" nzShowQuickJumper></nz-pagination>
+</nz-spin>

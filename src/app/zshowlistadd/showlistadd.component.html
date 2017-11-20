@@ -1,0 +1,164 @@
+<nz-spin [nzSpinning]="_isSpinning" [nzTip]="'组件加载中，请稍后...'">
+<form nz-form  [formGroup]="validateForm" (ngSubmit)="submitForm($event,validateForm.value)">
+  <div nz-form-item nz-row>
+    <h3>新增/修改网络展馆</h3>
+  </div>
+  <div nz-col [nzSpan]="12">
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="4">
+          <label nz-form-item-required>标题</label>
+        </div>
+        <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('title')" nzHasFeedback>
+          <nz-input formControlName="title"  [nzType]="'text'" [nzPlaceHolder]="'请输入标题'" [nzSize]="'large'" >
+          </nz-input>
+          <div nz-form-explain *ngIf="getFormControl('title').dirty&&getFormControl('title').hasError('required')">请输入标题!</div>
+          <div nz-form-explain *ngIf="getFormControl('title').dirty&&getFormControl('title').pending">检查中...</div>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="4">
+          <label>发布类型</label>
+        </div>
+        <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('choosetype')">
+          <nz-checkbox-group formControlName="choosetype" [(ngModel)]="checkOptionsOne" ></nz-checkbox-group>
+
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-col [nzSpan]="4" nz-form-label>
+          <label nz-form-item-required>关键词</label>
+        </div>
+        <div>
+          <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('keyword')" nzHasFeedback>
+            <nz-input formControlName="keyword"   [nzPlaceHolder]="'关键词'" [nzType]="'text'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="getFormControl('keyword').dirty&&getFormControl('keyword').hasError('required')">请输入关键词！</div>
+          </div>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-col [nzSpan]="4" nz-form-label>
+          <label nz-form-item-required>发布状态</label>
+        </div>
+        <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('status')" nzHasFeedback>
+            <nz-select formControlName="status" [nzSize]="'large'"  >
+              <nz-option [nzLabel]="'未发布'" [nzValue]="'0'"></nz-option>
+              <nz-option [nzLabel]="'已发布'" [nzValue]="'1'"></nz-option>
+              <nz-option [nzLabel]="'已下架'" [nzValue]="'2'"></nz-option>
+            </nz-select>
+
+          <div nz-form-explain *ngIf="getFormControl('status').dirty&&getFormControl('status').hasError('required')">请确认密码！</div>
+          <div nz-form-explain *ngIf="getFormControl('status').dirty&&getFormControl('status').hasError('confirm')">您输入的两个密码不一致！</div>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-col [nzSpan]="4" nz-form-label>
+          <label nz-form-item-required>展览简介</label>
+        </div>
+        <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('description')">
+          <nz-input formControlName="description" [nzRows]="2" [nzType]="'textarea'" [nzPlaceHolder]="'请填写展览简介'"  [nzSize]="'large'">
+          </nz-input>
+          <div nz-form-explain *ngIf="getFormControl('description').dirty&&getFormControl('description').hasError('required')">请填写展览简介!</div>
+        </div>
+      </div>
+
+  </div>
+
+  <div nz-col [nzSpan]="12">
+    <div nz-form-item nz-row>
+      <div nz-col [nzSpan]="4" nz-form-label>
+        <label nz-form-item-required>时间线</label>
+      </div>
+      <div nz-col [nzSpan]="12" nz-form-control [nzValidateStatus]="getFormControl('period')">
+        <nz-select  [nzSize]="'large'" formControlName="period"  nzAllowClear>
+          <nz-option
+            *ngFor="let option of timeperiod"
+            [nzLabel]="option"
+            [nzValue]="option">
+          </nz-option>
+        </nz-select>
+        <div nz-form-explain *ngIf="getFormControl('period').dirty&&getFormControl('period').hasError('required')">请选择时间线!</div>
+      </div>
+    </div>
+
+    <div nz-form-item nz-row>
+      <div nz-col [nzSpan]="4" nz-form-label>
+        <label nz-form-item-required>上传封面图</label>
+      </div>
+      <div nz-col [nzSpan]="12" nz-form-control>
+        <input type="hidden" formControlName="pic" value="picid">
+        <app-previewimg  [(previewImgSrcs)]="previewImgSrcs" (previewImgFileChange)="toSet()"  [(previewImgFile)]="previewImgFile" [maxPic]="1" style="padding: 0px"></app-previewimg>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-col [nzSpan]="4" nz-form-label>
+        <label>上传视频</label>
+      </div>
+      <div nz-col [nzSpan]="12" nz-form-control >
+        <ul class="filegroup">
+          <li *ngFor="let item of fileLists">
+            <img [src]="item.showurl" alt="">
+            <nz-tooltip [nzTitle]="item.originalname" [nzPlacement]="'bottom'">
+              <p nz-tooltip>{{item.originalname}}</p>
+            </nz-tooltip>
+            <div>
+              <span >
+                <i class="anticon anticon-eye seeImg" *ngIf="item.preview!='2'" (click) = "toDos(item.preview,item.showurl,item.id,item.actualsize,item.standardsize)"></i>
+                <i [ngClass]="{'tocenter':item.preview=='2'}" class="anticon anticon-delete uploadimgremove" (click)="remove(item.id,4)"></i>
+              </span>
+            </div>
+          </li>
+
+        </ul>
+        <a style="line-height: 28px" nz-button [nzType]="'default'" (click)="showModal('上传视频')">上传视频</a>
+
+      </div>
+    </div>
+
+
+    <div nz-form-item nz-row>
+      <div nz-col [nzSpan]="4" nz-form-label>
+        <label>上传附件</label>
+      </div>
+      <div nz-col [nzSpan]="12" nz-form-control >
+        <ul class="filegroup">
+          <li *ngFor="let item of fileList">
+            <img [src]="item.showurl" alt="">
+            <nz-tooltip [nzTitle]="item.originalname" [nzPlacement]="'bottom'">
+              <p nz-tooltip>{{item.originalname}}</p>
+            </nz-tooltip>
+            <div>
+              <span >
+                <i class="anticon anticon-eye seeImg" *ngIf="item.preview!='2'" (click) = "toDos(item.preview,item.showurl,item.id,item.actualsize,item.standardsize)"></i>
+                <i [ngClass]="{'tocenter':item.preview=='2'}" class="anticon anticon-delete uploadimgremove" (click)="remove(item.id,5)"></i>
+              </span>
+            </div>
+          </li>
+        </ul>
+        <a style="line-height: 28px" nz-button [nzType]="'primary'" (click)="showModal('文件上传')">上传附件</a>
+      </div>
+    </div>
+    <div nz-form-item nz-row>
+      <div nz-col [nzOffset]="4" [nzSpan]="12" nz-form-control>
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'"  (click)="submitFn()" [disabled]="!validateForm.valid">提交</button>
+        <button nz-button [nzSize]="'large'" style="float: right" (click)="resetForm($event)">重置</button>
+      </div>
+    </div>
+  </div>
+
+
+</form>
+<!--<div [disabled]="!validateForm.valid"></div>-->
+
+</nz-spin>
+<nz-modal [nzWidth]="width" [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel($event)">
+  <ng-template #modalTitle>
+    {{names}}
+  </ng-template>
+  <ng-template #modalContent style="background-color: #999">
+    <iframe *ngIf="names=='文件上传' || names=='上传视频' " style="width: 840px;height: 380px;margin-left: 28px" [src]="src" frameborder="0"></iframe>
+    <div *ngIf="names!='文件上传' && names!='上传视频'" style="width: 420px;display: block;margin: 0 auto;background-color: #999" >
+      <img style="width: 420px;display: block;margin: 0 auto;"  [src]="seeurl" alt="">
+    </div>
+  </ng-template>
+</nz-modal>

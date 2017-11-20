@@ -1,0 +1,79 @@
+
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+.section{
+  overflow: hidden;
+  clear: both;
+}
+.badage,.badages{
+  padding-top: 8px;
+  width: 100%;
+  border-top: #ededed solid 1px ;
+  margin-top: 8px;
+}
+.badage span{
+  float: left;
+  text-align: center;
+  width: 33.3%;
+  border-right: #ededed solid 1px ;
+  box-sizing: border-box;
+}
+.badage span:last-child{
+  float: left;
+  width: 33.3%;
+  border-right: none ;
+}
+.badages span{
+  float: left;
+  text-align: center;
+  width: 50%;
+  border-right: #ededed solid 1px ;
+  box-sizing: border-box;
+}
+.badages span:last-child{
+  border-right: none ;
+}
+.imgcontain{
+  border: #f0f0f0 solid 1px;
+  border-radius: 6px;
+  height: 170px;
+  width: 310px;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.mit p{
+  margin-bottom: 8px;
+}
+.oneline{
+  max-width:160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block
+}
+.downgroup{
+  height:174px;
+  overflow: auto;
+}
+.downgroup ul li{
+  overflow: hidden;
+  clear: both;
+}
+.downgroup ul .headdown{
+  padding:12px 0px;
+  background-color: #9e9e9e;
+  color: #FFFFFF;
+}
+
+.downgroup ul li span{
+  padding: 12px 12px;
+}
+.downgroup ul .headdown span{
+  padding:0px 12px;
+
+}

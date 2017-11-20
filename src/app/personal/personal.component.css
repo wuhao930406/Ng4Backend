@@ -1,0 +1,10 @@
+.table-operations {
+  margin-bottom: 16px;
+}
+
+.table-operations > button {
+  margin-right: 8px;
+}
+.red{
+  color: #b81900;
+}

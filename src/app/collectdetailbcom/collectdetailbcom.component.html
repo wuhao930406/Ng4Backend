@@ -1,0 +1,100 @@
+<nz-content>
+    <div nz-row [nzGutter]="8" style="margin-bottom: 8px">
+      <div nz-col [nzSpan]="8" >
+        <nz-card>
+          <ng-template #body>
+            <div class="custom-image imgcontain" [ngStyle]="{'background':'url('+dataList.picurl+')'}" (click)="showModal(dataList.picurl)">
+            </div>
+            <div class="custom-card">
+              <h3 class="section" style="padding-top: 8px">
+                <nz-tooltip class="left" [nzTitle]="dataList.name" [nzPlacement]="'bottom'">
+                  <span nz-tooltip class="oneline">档案名 : {{dataList.name}}</span>
+                </nz-tooltip>
+                <span class="right" *ngIf="dataList.selected=='0'" style="color:#b81900;font-size: 14px;margin-left: 6px">精选</span>
+                <span class="right" *ngIf="dataList.newadd=='0'" style="color: #4d90fe;font-size: 14px;margin-left: 6px">新增</span>
+              </h3>
+              <p  [ngClass]="{'badages': !dataList.keyword,'badage': dataList.keyword}">
+                <span *ngIf = "dataList.keyword">关键词 : {{dataList.keyword}}</span>
+                <span>状态 : {{dataList.statusCN}}</span>
+                <span>浏览量 : {{dataList.views}}</span>
+              </p>
+            </div>
+          </ng-template>
+        </nz-card>
+      </div>
+      <div nz-col [nzSpan]="16">
+        <nz-card style="height: 287px">
+          <ng-template #title>
+            <span class="left">档案简介</span>
+            <span class="right">内容时期 : {{dataList.period}}年</span>
+          </ng-template>
+          <ng-template #body>
+            <p *ngIf="dataList.description" style="height: 190px;overflow: auto;display: block">{{dataList.description}}</p>
+            <p *ngIf="!dataList.description" style="height: 190px;overflow: auto;display: block">暂无描述</p>
+          </ng-template>
+        </nz-card>
+      </div>
+    </div>
+  <div nz-row [nzGutter]="8" style="margin-bottom: 44px">
+    <div nz-col [nzSpan]="8">
+        <nz-card style="height: 287px">
+          <ng-template #title>
+            出版信息
+          </ng-template>
+          <ng-template #body>
+            <div class="mit">
+              <p>档 &nbsp;案 &nbsp;号 : {{dataList.number}}</p>
+              <p>所 &nbsp;属 &nbsp;馆 : {{dataList.archive}}</p>
+              <p>发 &nbsp;生 &nbsp;地 : {{dataList.address}}</p>
+              <p>入库时间 : {{dataList.publishTime   | date: 'yyyy-MM-dd'}}</p>
+            </div>
+
+          </ng-template>
+        </nz-card>
+    </div>
+    <div nz-col [nzSpan]="16">
+      <nz-card style="height: 287px">
+        <ng-template #title>
+          <span class="left">档案详情</span>
+          <button nz-button class="right" style="margin-top: 10px" [nzType]="'primary'" [nzSize]="size" (click)="downAll()">
+            <i class="anticon anticon-download"></i><span>全部下载</span>
+          </button>
+        </ng-template>
+        <ng-template #body>
+          <div class="imggroup">
+            <div class="custom-image imgcontain" *ngFor="let item of downList" [ngStyle]="{'background':'url('+item.showurl+')'}">
+              <p>{{item.originalname}}</p>
+              <div class="cover">
+                <span>
+                <i class="anticon anticon-eye seeImg" *ngIf="item.preview!='2'" (click) = "toSee(item.preview,item.showurl,item.id,item.actualsize,item.standardsize)"></i>
+                <i [ngClass]="{'tocenter':item.preview=='2'}" class="anticon anticon-download uploadimgremove" (click)="downLoad(item.id)"></i>
+                </span>
+              </div>
+            </div>
+            <nz-alert
+              *ngIf="downList.length==0"
+              [nzType]="'warning'"
+              [nzMessage]="'此条目并无附件'"
+              [nzShowIcon]="'true'">
+            </nz-alert>
+
+
+
+
+
+          </div>
+        </ng-template>
+      </nz-card>
+    </div>
+  </div>
+<nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzWidth]="'60%'" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel($event)">
+  <ng-template #modalTitle>
+    查看图片
+  </ng-template>
+  <ng-template #modalContent>
+     <img [src] = "thisImg" style="width: 100%;"/>
+  </ng-template>
+  <ng-template #modalFooter>
+  </ng-template>
+</nz-modal>
+</nz-content>

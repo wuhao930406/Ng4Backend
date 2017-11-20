@@ -1,0 +1,112 @@
+<nz-spin [nzSpinning]="_isSpinning" [nzTip]="'正在读取数据...'">
+  <nz-content>
+    <div nz-row [nzGutter]="8" style="margin-bottom: 8px">
+      <div nz-col [nzSpan]="8" >
+        <nz-card>
+            <ng-template #title>
+              <span class="left" style="font-size: 14px">提交者信息</span>
+            </ng-template>
+            <ng-template #body>
+              <div style="height: 189px;float: left">
+              <nz-avatar  class="left" [nzShape]="'square'" [nzSize]="'large'" [nzIcon]="'user'"></nz-avatar>
+              </div>
+              <div style="overflow: hidden;float: left;text-align: left">
+                <p style="text-indent: 12px;padding-bottom: 8px">姓名 : {{dataList.name}}</p>
+                <p style="text-indent: 12px;padding-bottom: 8px">电话 : {{dataList.moblie}}</p>
+                <p style="text-indent: 12px;padding-bottom: 8px">邮箱 : {{dataList.email}}</p>
+                <p style="text-indent: 12px;padding-bottom: 8px">地址 : {{dataList.address}}</p>
+               </div>
+
+            </ng-template>
+        </nz-card>
+      </div>
+      <div nz-col [nzSpan]="16">
+        <nz-card style="height: 287px">
+          <ng-template #title>
+            <span class="left" style="font-size: 14px">档案简介</span>
+            <span class="right" style="color:#b81900;font-size: 14px">审核状态 : {{examine}}</span>
+          </ng-template>
+          <ng-template #body>
+            <p *ngIf="dataList.description" style="height: 190px;overflow: auto;display: block" [innerHtml] = 'dataList.description'></p>
+            <p *ngIf="!dataList.description" style="height: 190px;overflow: auto;display: block">暂无描述</p>
+          </ng-template>
+        </nz-card>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8" style="margin-bottom: 44px">
+      <div nz-col [nzSpan]="8">
+        <nz-card>
+          <ng-template #title style="font-size: 14px">
+            书籍信息
+          </ng-template>
+          <ng-template #body>
+            <div class="mit">
+              <p>档 &nbsp;案 &nbsp;号 : {{dataList.number}}</p>
+              <p>所 &nbsp;属 &nbsp;馆 : {{dataList.archive}}</p>
+              <p>提交时间 : {{dataList.createDate | date: 'yyyy-MM-dd'}}</p>
+              <p>附件信息列表 <span class="right" style="color: #ff3600;cursor: pointer" (click)="downAll()">全部下载</span></p>
+              <div class="downgroup">
+                <ul>
+                  <nz-alert
+                    *ngIf="downList.length==0"
+                    [nzType]="'warning'"
+                    [nzMessage]="'此条目并无附件'"
+                    [nzShowIcon]="'true'">
+                  </nz-alert>
+                  <li *ngIf="downList.length!=0" class="headdown">
+                    <span class="left">文件名</span>
+                    <span class="right">操作</span>
+                    <span class="right">大小</span>
+                  </li>
+                  <li *ngFor="let key of downList">
+                    <nz-tooltip class="left" [nzTitle]="key.originalname" [nzPlacement]="'bottom'">
+                      <a nz-tooltip class="oneline"  style="line-height: 42px" (click)="toSee(key.preview,key.showurl,key.id,key.actualsize,key.standardsize)">{{key.originalname}}</a>
+                    </nz-tooltip>
+                    <span class="right" nz-button style="margin-top: 6px;padding-top: 6px" (click)="downLoad(key.id)">下载</span>
+                    <span class="right">{{key.size}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-template>
+        </nz-card>
+      </div>
+      <div nz-col [nzSpan]="16">
+        <nz-card style="height: 402px">
+          <ng-template #title style="font-size: 14px">
+            审核操作
+          </ng-template>
+          <ng-template #body>
+            <nz-alert
+              style="margin-bottom: 12px"
+              [nzType]="'info'"
+              [nzMessage]="'友情提醒'"
+              [nzDescription]="'此条目为用户提交，请审核...'"
+              [nzShowIcon]="'true'">
+            </nz-alert>
+
+            <button nz-button class="right" [nzType]="'default'" (click)="changeState(2)">
+              <span>不通过审核</span>
+            </button>
+            <button nz-button class="right" style="margin-right: 12px" (click)="changeState(1)" [nzType]="'primary'">
+              <span>通过审核</span>
+            </button>
+
+
+          </ng-template>
+        </nz-card>
+      </div>
+    </div>
+    <nz-modal [nzWrapClassName]="'vertical-center-modal'" [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzWidth]="'60%'" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel($event)">
+      <ng-template #modalTitle>
+        查看图片
+      </ng-template>
+      <ng-template #modalContent>
+        <img [src] = "thisImg" style="width: 100%;"/>
+      </ng-template>
+      <ng-template #modalFooter>
+      </ng-template>
+    </nz-modal>
+  </nz-content>
+
+</nz-spin>

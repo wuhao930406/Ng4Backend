@@ -1,0 +1,26 @@
+<div>
+<label class="preview-label" *ngFor="let img of previewImgSrcs let i = index">
+  <nz-avatar nzIcon="user" class="imgholder" nzSrc="{{img}}" [nzShape]="'square'"></nz-avatar>
+  <div class="todo">
+    <span>
+      <i class="anticon anticon-eye seeImg" (click) = "showModal(img)"></i>
+      <i class="anticon anticon-delete uploadimgremove" (click)="remove(i)"></i>
+    </span>
+  </div>
+
+
+
+</label>
+<label class="preview-label" [ngClass]="{'show':addImg==true,'hide':addImg==false}">
+  <input type="file" (change)="previewPic($event)" >
+  <i class="anticon anticon-plus uploadimgicon"></i>
+</label>
+</div>
+<nz-modal [nzWidth]="'650px'" [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel($event)">
+  <ng-template #modalTitle>
+    查看图片
+  </ng-template>
+  <ng-template #modalContent>
+    <img style="width: 100%" [src]="showImg" alt="">
+  </ng-template>
+</nz-modal>

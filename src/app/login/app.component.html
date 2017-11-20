@@ -1,0 +1,58 @@
+<div class="login">
+<h2 class="seth">南京大屠杀数字一体化管理平台</h2>
+  <div class="cube-wrap vertical">
+    <div class="cube depth" [ngClass]="{'transcube':fogot==true}">
+      <form nz-form [formGroup]="validateForm" class="login-form front-pane" (ngSubmit)="_submitForm()">
+        <h2 style="padding: 22px 0px;padding-top:4px;text-align: center;font-size: 18px;">欢迎使用</h2>
+        <div nz-form-item>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.userName">
+            <nz-input [(ngModel)]="user" formControlName="userName" [nzPlaceHolder]="'用户名'" [nzSize]="'large'">
+              <ng-template #prefix>
+                <i class="anticon anticon-user"></i>
+              </ng-template>
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.userName.dirty&&validateForm.controls.userName.hasError('required')">请输入用户名</div>
+          </div>
+        </div>
+        <div nz-form-item>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.password">
+            <nz-input [(ngModel)]="pwd" formControlName="password" [nzType]="'password'" [nzPlaceHolder]="'密码'" [nzSize]="'large'">
+              <ng-template #prefix>
+                <i class="anticon anticon-lock"></i>
+              </ng-template>
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.password.dirty&&validateForm.controls.password.hasError('required')">请输入密码</div>
+          </div>
+        </div>
+        <div nz-form-item>
+          <div nz-form-control  [nzValidateStatus]="getFormControl('captcha')">
+            <nz-input [(ngModel)]="captcha" style="float: left;width: 50%" [nzSize]="'large'" [nzPlaceHolder]="'验证码'" formControlName="captcha" [nzId]="'captcha'"></nz-input>
+
+            <button class="captchabtn" nz-button [nzType]="'primary'" [nzSize]="'large'" [nzLoading]="isLoadingOne" (click)="getCaptcha($event)">{{time}}</button>
+            <div style="clear: both" nz-form-explain *ngIf="getFormControl('captcha').dirty&&getFormControl('captcha').hasError('required')">请输入验证码</div>
+          </div>
+        </div>
+        <div nz-form-item>
+          <div nz-form-control>
+            <label nz-checkbox [(ngModel)]="remember" formControlName="remember">
+              <span>记住密码</span>
+            </label>
+            <a class="login-form-forgot" class="login-form-forgot" (click)="fogot=true">忘记密码</a>
+            <button nz-button class="login-form-button" [nzType]="'primary'" [nzSize]="'large'" (click)="landIn()">登陆</button>
+          </div>
+        </div>
+      </form>
+      <div  class="login-form top-pane" >
+        <h2 style="padding: 22px 0px;padding-top:4px;text-align: center;font-size: 18px;"><span>找回密码</span></h2>
+        <fogot-module (landed)="exculiba()"></fogot-module>
+        <p style="text-align: right">
+          <span style="color:#006dcc;cursor: pointer;" (click)="fogot=false">返回登陆</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+

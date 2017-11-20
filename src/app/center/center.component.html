@@ -1,0 +1,39 @@
+<nz-spin [nzSpinning]="_isSpinning" [nzTip]="'正在读取数据...'">
+  <nz-card style="width:34%;" [nzLoading]="_isLoading">
+    <ng-template #title>
+      账号信息
+    </ng-template>
+    <ng-template #body>
+      <div class="contena">
+        <p>
+          <label>手机号  </label>
+          <span class="left">{{dataList.mobile}}</span>
+        </p>
+        <p>
+          <label>密码  </label>
+          <nz-input [nzDisabled]="true" style="width: 140px;float: left" [(ngModel)]="dataList.password" [nzType]="_string" ></nz-input>
+          <nz-switch style="float: left;margin-left: 10px;margin-top: -1px" [(ngModel)]="_sdk" (ngModelChange)="changeType()"></nz-switch>
+        </p>
+        <div [ngClass]="{'show':_isdisable==false,'hide': _isdisable==true}">
+        <p>
+          <label>新密码  </label>
+          <nz-input style="width: 190px;float: left" [(ngModel)]="new" [nzType]="'password'" [nzPlaceHolder]="'请输入新密码'"></nz-input>
+        </p>
+        <p>
+          <label>确认密码  </label>
+          <nz-input style="width: 190px;float: left" [(ngModel)]="surenew" [nzType]="'password'" [nzPlaceHolder]="'请确认新密码'"></nz-input>
+        </p>
+        </div>
+        <button nz-button (click)="toChange()" [nzType]="style" style="width: 193px;display: block;margin: 8px auto 8px auto">
+          <span>{{text}}</span>
+        </button>
+
+
+
+
+      </div>
+
+    </ng-template>
+  </nz-card>
+
+</nz-spin>

@@ -1,0 +1,12 @@
+.oneline{
+  max-width:160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  text-align: center;
+}
+.padding24{
+  padding-left: 24px !important;
+  display: inline-block;
+}

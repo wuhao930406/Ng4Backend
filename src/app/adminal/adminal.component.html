@@ -1,0 +1,131 @@
+<nz-spin [nzSpinning]="_isSpinning" [nzTip]="'正在读取数据...'">
+  <div class="table-operations" style="overflow: hidden;">
+    <nz-datepicker style="float: left;margin-right: 12px" (ngModelChange)="_startDate=$event;_startValueChange()" [(ngModel)]="_startDate" [nzDisabledDate]="_disabledStartDate"  [nzFormat]="'YYYY-MM-DD'" [nzPlaceHolder]="'开始日期'"></nz-datepicker>
+    <nz-datepicker style="float: left;margin-right: 12px" (ngModelChange)="_endDate=$event;_endValueChange()" [(ngModel)]="_endDate" [nzDisabledDate]="_disabledEndDate"  [nzFormat]="'YYYY-MM-DD'" [nzPlaceHolder]="'结束日期'"></nz-datepicker>
+
+    <div style="float: left; margin-right: 12px" >
+      <span>角色分类 : &nbsp;</span>
+      <nz-select style="width: 88px;" [(ngModel)]="single" (ngModelChange)="getDatas()"  [nzShowSearch]="true" >
+        <nz-option
+        [nzLabel]="'-请选择-'"
+        [nzValue]="''">
+      </nz-option>
+        <nz-option
+          *ngFor="let data of allsingle"
+          [nzLabel]="data.name"
+          [nzValue]="data.id">
+        </nz-option>
+
+      </nz-select>
+    </div>
+
+    <nz-input  style="width: 260px;float: left; margin-right: 24px" [(ngModel)]="inputValue" [nzPlaceHolder]="'请输入搜索内容...'" (ngModelChange)="alert($event)" (keyup.enter)="getDatas()">
+      <ng-template #addOnBefore>
+        <nz-select style="width: 66px;"[nzPlaceHolder]="'手机号'"   [(ngModel)]="selectValue">
+          <nz-option [nzLabel]="'手机号'" [nzValue]="'1'"></nz-option>
+        </nz-select>
+      </ng-template>
+      <ng-template #addOnAfter>
+        <i class="anticon anticon-search ant-input-search-icon" (click)="getDatas()"></i>
+      </ng-template>
+    </nz-input>
+    <button nz-button style="float: left" [nzType]="'primary'" (click)="reset()">重置</button>
+
+    <button nz-button style="float: right" [nzType]="'danger'" (click)="deleteAll()">批量删除</button>
+    <button nz-button style="float: right" [nzType]="'primary'" (click)="showModal('null',false)">新建账号</button>
+  </div>
+  <nz-table #nzTable [nzDataSource]="data" [nzPageSize]="10" [nzIsPagination]="false">
+    <thead nz-thead>
+    <tr>
+      <th nz-th [nzCheckbox]="true">
+        <label nz-checkbox [(ngModel)]="_allChecked" [nzIndeterminate]="_indeterminate" (ngModelChange)="_checkAll($event)">
+        </label>
+      </th>
+      <th nz-th>
+        <span style="padding-left: 12px">电话</span>
+        <nz-table-sort [(nzValue)]="sortMap.mobile" (nzValueChange)="sort('mobile',$event)"></nz-table-sort>
+      </th>
+
+      <th nz-th>
+        <span>密码</span>
+      </th>
+      <th nz-th>
+        <span>发布时间</span>
+        <nz-table-sort [(nzValue)]="sortMap.createDate" (nzValueChange)="sort('createDate',$event)"></nz-table-sort>
+      </th>
+      <th nz-th>
+        <span>权限</span>
+        <nz-table-sort [(nzValue)]="sortMap.roleCN" (nzValueChange)="sort('roleCN',$event)"></nz-table-sort>
+      </th>
+      <th nz-th><span>操作</span></th>
+    </tr>
+    </thead>
+    <tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+      <td nz-td [nzCheckbox]="true">
+        <label nz-checkbox [(ngModel)]="data.checked" (ngModelChange)="_refreshStatus($event)">
+        </label>
+      </td>
+      <td nz-td>
+        <a style="padding-left: 12px">{{data.mobile}}</a>
+      </td>
+
+      <td nz-td>
+        <nz-input style="width: 100px;border: none;" [(ngModel)]="data.password" [nzType]="'password'" [nzDisabled]="true"></nz-input>
+      </td>
+      <td nz-td>{{data.createDate | date: 'yyyy-MM-dd' }}</td>
+      <td nz-td><span>{{data.roleCN }}</span></td>
+      <td nz-td>
+      <span>
+        <a (click)="showModal(data,false)">编辑</a>
+        <span nz-table-divider></span>
+        <a (click)="showModal(data,true)">查看</a>
+        <span nz-table-divider></span>
+        <a (click)="deleteAll(data.id)">删除</a>
+      </span>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <nz-pagination style="float: right;margin-top: 12px;margin-bottom: 24px" [nzPageSize]="pagesize" [(nzPageIndex)]="pageindex" (nzPageIndexChange)="getDatas()" [nzTotal]="nztotal" nzShowQuickJumper></nz-pagination>
+
+  <nz-modal [nzVisible]="isVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel($event)">
+    <ng-template #modalTitle>
+      {{namead}}
+    </ng-template>
+    <ng-template #modalContent>
+      <div style="width: 300px;margin:0 auto;overflow: hidden;margin-bottom: 12px">
+      <span>账<span style="opacity: 0">面阿</span>号 : &nbsp;</span>
+      <nz-input style="width: 200px;border: none;" [(ngModel)]="userad" [nzType]="'text'" [nzPlaceHolder]="'请输入用户名（手机号）'" [nzDisabled]="isSee"></nz-input>
+      </div>
+      <div style="width: 300px;margin:0 auto;overflow: hidden;margin-bottom: 12px">
+        <span>密<span style="opacity: 0">面阿</span>码 : &nbsp;</span>
+      <nz-input style="width: 200px;border: none;" [(ngModel)]="pwdad" [nzPlaceHolder]="'请输入密码'" [nzType]="'text'" [nzDisabled]="isSee" ></nz-input>
+      </div>
+      <div style="width: 300px;margin:0 auto;overflow: hidden;margin-bottom: 12px" >
+        <span>角色分类 : &nbsp;</span>
+        <nz-select style="width: 200px;" [(ngModel)]="rolead" (ngModelChange)="getDatas()"  [nzShowSearch]="true" [nzDisabled]="isSee" [nzPlaceHolder]="'请选择角色'" >
+          <nz-option
+            *ngFor="let data of allsingle"
+            [nzLabel]="data.name"
+            [nzValue]="data.id">
+          </nz-option>
+
+        </nz-select>
+      </div>
+      <p style="width: 100%; text-align: center;color:#999;padding-top: 8px;font-size: 13px">创建日期：{{updateDatead | date: 'yyyy-MM-dd'}}</p>
+    </ng-template>
+    <ng-template #modalFooter>
+      <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+        返 回
+      </button>
+      <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleOk($event)" [nzLoading]="isConfirmLoading" *ngIf="!isSee">
+        保 存
+      </button>
+    </ng-template>
+  </nz-modal>
+
+
+</nz-spin>
+
+

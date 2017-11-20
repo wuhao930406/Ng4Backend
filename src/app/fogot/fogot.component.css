@@ -1,0 +1,31 @@
+.login-form {
+  width: 300px;
+  height: 216px;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+}
+.seth{
+  width: 100%;
+  height: 26px;
+  display: block;
+  font-size: 36px;
+  padding-top: 68px;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: normal;
+  text-shadow: 1px 1px 1px #666;
+}
+.login-form-forgot {
+  float: right;
+}
+
+.captchabtn{
+  float: right !important;
+  width: 40% !important;
+}
+.login-form-button {
+  width: 100%;
+}
+input{
+  font-size: 14px !important;
+}
